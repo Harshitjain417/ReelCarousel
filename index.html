@@ -150,6 +150,25 @@
       font-weight: 600;
       line-height: 1.1;
       letter-spacing: -0.03em;
+      perspective: 1000px;
+    }
+
+    .flip-word {
+      display: inline-block;
+      opacity: 0;
+      transform-origin: top center;
+      animation: flipInX 0.9s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    }
+
+    @keyframes flipInX {
+      0% {
+        transform: perspective(600px) rotateX(-90deg);
+        opacity: 0;
+      }
+      100% {
+        transform: perspective(600px) rotateX(0deg);
+        opacity: 1;
+      }
     }
 
     .hero-center {
@@ -545,6 +564,35 @@
   </section>
 
   <script>
+    // ==========================================
+    // 🔠 HERO TEXT 3D ANIMATION
+    // ==========================================
+    document.addEventListener("DOMContentLoaded", () => {
+      const headline = document.querySelector('.hero-left h2');
+      if(headline) {
+        const lines = headline.innerHTML.split('<br>');
+        headline.innerHTML = '';
+        let delay = 0;
+        
+        lines.forEach((line, lineIndex) => {
+          const words = line.split(' ');
+          words.forEach((word) => {
+            const span = document.createElement('span');
+            span.className = 'flip-word';
+            span.style.animationDelay = `${delay}s`;
+            span.innerHTML = word + '&nbsp;';
+            headline.appendChild(span);
+            // 80ms delay overlap like standard AE presets
+            delay += 0.08; 
+          });
+          
+          if (lineIndex < lines.length - 1) {
+            headline.appendChild(document.createElement('br'));
+          }
+        });
+      }
+    });
+
     // ==========================================
     // 🎥 VIDEO CONFIGURATION 
     // Easily replace these URLs with your own.
