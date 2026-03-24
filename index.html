@@ -155,9 +155,9 @@
       left: 50%;
       bottom: 0;
       transform: translateX(-50%);
-      width: 40%;
-      max-width: 600px;
-      height: 95%;
+      width: 70%;
+      max-width: 1000px;
+      height: 100%;
       z-index: 1;
       display: flex;
       align-items: flex-end;
@@ -167,16 +167,14 @@
 
     .hero-image {
       width: 100%;
-      height: auto;
+      height: 100%;
       object-fit: contain;
-      max-height: 100%;
-      /* If no image exists, creating a nice empty shape for the user to replace */
-      background: radial-gradient(circle at center, rgba(0,0,0,0.05) 0%, transparent 70%);
+      object-position: bottom center;
+      transform: scale(1.15);
+      transform-origin: bottom center;
     }
 
-    [data-theme="dark"] .hero-image {
-      background: radial-gradient(circle at center, rgba(255,255,255,0.05) 0%, transparent 70%);
-    }
+
 
     .hero-right {
       flex: 1;
