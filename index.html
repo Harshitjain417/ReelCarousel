@@ -54,12 +54,214 @@
       background-color: var(--bg-color);
       color: var(--text-color);
       overflow-x: hidden;
+      transition: background-color 0.4s ease, color 0.4s ease;
+    }
+
+    /* ==========================================
+       🌅 HERO SECTION
+       ========================================== */
+    .hero-section {
       width: 100vw;
-      height: 100vh;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      padding: 0 5vw;
+    }
+
+    .hero-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 30px 0;
+      z-index: 10;
+    }
+
+    .logo h1 {
+      font-size: 1.8rem;
+      font-weight: 600;
+      margin-bottom: 2px;
+      letter-spacing: -0.02em;
+    }
+
+    .logo p {
+      font-size: 0.9rem;
+      color: var(--text-color);
+      opacity: 0.6;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 40px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--text-color);
+      font-size: 1rem;
+      font-weight: 500;
+      transition: opacity 0.3s;
+    }
+
+    .nav-links a:hover {
+      opacity: 0.7;
+    }
+
+    .btn {
+      text-decoration: none;
+      padding: 12px 28px;
+      border-radius: 30px;
+      font-size: 0.95rem;
+      font-weight: 500;
+      display: inline-block;
+      transition: transform 0.3s, background 0.3s;
+      cursor: pointer;
+      border: none;
+    }
+
+    .btn-primary {
+      background: var(--text-color);
+      color: var(--bg-color);
+    }
+
+    .btn-primary:hover {
+      transform: scale(1.05);
+    }
+
+    .hero-content {
+      flex: 1;
       display: flex;
       align-items: center;
+      position: relative;
+      z-index: 5;
+    }
+
+    .hero-left {
+      flex: 1;
+      padding-right: 20px;
+      z-index: 2;
+    }
+
+    .hero-left h2 {
+      font-size: 4.5rem;
+      font-weight: 600;
+      line-height: 1.1;
+      letter-spacing: -0.03em;
+    }
+
+    .hero-center {
+      position: absolute;
+      left: 50%;
+      bottom: 0;
+      transform: translateX(-50%);
+      width: 40%;
+      max-width: 600px;
+      height: 95%;
+      z-index: 1;
+      display: flex;
+      align-items: flex-end;
       justify-content: center;
-      transition: background-color 0.4s ease, color 0.4s ease;
+      pointer-events: none;
+    }
+
+    .hero-image {
+      width: 100%;
+      height: auto;
+      object-fit: contain;
+      max-height: 100%;
+      /* If no image exists, creating a nice empty shape for the user to replace */
+      background: radial-gradient(circle at center, rgba(0,0,0,0.05) 0%, transparent 70%);
+    }
+
+    [data-theme="dark"] .hero-image {
+      background: radial-gradient(circle at center, rgba(255,255,255,0.05) 0%, transparent 70%);
+    }
+
+    .hero-right {
+      flex: 1;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      padding-left: 20px;
+      z-index: 2;
+    }
+
+    .floating-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      padding: 24px;
+      border-radius: 12px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.05);
+      display: inline-flex;
+      flex-direction: column;
+      gap: 16px;
+      backdrop-filter: blur(10px);
+    }
+
+    [data-theme="dark"] .floating-card {
+      box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+    }
+
+    .trusted-by {
+      display: flex;
+      align-items: center;
+      font-size: 0.95rem;
+      color: var(--text-color);
+      opacity: 0.9;
+    }
+
+    .strong-text {
+      font-weight: 600;
+      margin-left: 4px;
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      background: #2ecc71;
+      border-radius: 50%;
+      margin-right: 12px;
+      box-shadow: 0 0 10px rgba(46, 204, 113, 0.4);
+    }
+
+    .btn-dark {
+      background: #111;
+      color: #fff;
+      border-radius: 8px;
+      text-align: center;
+      width: 100%;
+      font-weight: 600;
+      padding: 14px 24px;
+    }
+
+    [data-theme="dark"] .btn-dark {
+      background: #fff;
+      color: #111;
+    }
+
+    @media (max-width: 1024px) {
+      .hero-left h2 { font-size: 3.5rem; }
+      .hero-center { width: 50%; }
+      .nav-links { gap: 20px; }
+    }
+
+    @media (max-width: 768px) {
+      .hero-nav { flex-wrap: wrap; gap: 20px; }
+      .nav-links { display: none; }
+      .hero-content { flex-direction: column; align-items: flex-start; justify-content: center; gap: 40px; }
+      .hero-left h2 { font-size: 2.5rem; margin-bottom: 250px; }
+      .hero-center { width: 70%; height: 50%; bottom: auto; top: 30%; }
+      .hero-right { width: 100%; justify-content: flex-start; margin-bottom: 40px; }
+    }
+
+    /* ==========================================
+       🎬 CAROUSEL SECTION
+       ========================================== */
+    .carousel-section {
+      width: 100vw;
+      height: 100vh;
+      position: relative;
     }
 
     .carousel-container {
@@ -244,7 +446,7 @@
        🌗 THEME TOGGLE BUTTON
        ========================================== */
     .theme-toggle {
-      position: absolute;
+      position: fixed;
       top: 30px;
       right: 30px;
       z-index: 1000;
@@ -286,13 +488,51 @@
     <svg class="moon-icon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
   </button>
 
-  <!-- CAROUSEL WRAPPER -->
-  <div class="carousel-container">
-    <div class="carousel-track" id="carouselTrack">
-      <!-- Items generated dynamically by JS -->
-    </div>
+  <!-- HERO SECTION -->
+  <section class="hero-section">
+    <nav class="hero-nav">
+      <div class="logo">
+        <h1>Harshit jain</h1>
+        <p>Video Editor &amp; Motion Graphics Artist</p>
+      </div>
+      <ul class="nav-links">
+        <li><a href="#">Work</a></li>
+        <li><a href="#">About</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+      <div class="nav-cta">
+        <a href="#" class="btn btn-primary">Contact Now</a>
+      </div>
+    </nav>
 
-    <!-- CONTROLS -->
+    <div class="hero-content">
+      <div class="hero-left">
+        <h2>I turn raw footage into<br>stories people can't<br>stop watching.</h2>
+      </div>
+      <div class="hero-center">
+        <!-- REPLACE THE SRC BELOW WITH YOUR CUTOUT IMAGE URL -->
+        <img src="" alt="" class="hero-image" />
+      </div>
+      <div class="hero-right">
+        <div class="floating-card">
+          <div class="trusted-by">
+            <span class="status-dot"></span> Trusted by <span class="strong-text">Global Brands</span>
+          </div>
+          <button class="btn btn-dark" onclick="document.getElementById('carousel-section').scrollIntoView({behavior: 'smooth'})">View My Work</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CAROUSEL SECTION WRAPPER -->
+  <section class="carousel-section" id="carousel-section">
+    <!-- CAROUSEL WRAPPER -->
+    <div class="carousel-container">
+      <div class="carousel-track" id="carouselTrack">
+        <!-- Items generated dynamically by JS -->
+      </div>
+
+      <!-- CONTROLS -->
     <div class="controls">
       <button id="prevBtn" aria-label="Previous">
         <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
@@ -302,6 +542,7 @@
       </button>
     </div>
   </div>
+  </section>
 
   <script>
     // ==========================================
