@@ -1209,8 +1209,8 @@
       // 2. Diagonal Fade Logic
       const fadeElements = document.querySelectorAll('.diagonal-scroll-fade');
       const updateFade = () => {
-        // Map scrollY to reverse progress: starts fading immediately, completely invisible at 250px
-        let scrollP = window.scrollY / 250;
+        // Map scrollY to reverse progress: starts fading immediately, completely invisible at 500px
+        let scrollP = window.scrollY / 500;
         scrollP = Math.max(0, Math.min(1, scrollP));
         
         // Reverse mapping: 1 (top) down to 0 (scrolled 250px)
