@@ -1196,13 +1196,16 @@
       const fadeElements = document.querySelectorAll('.diagonal-scroll-fade');
       
       const updateFade = () => {
-        // Tie the progress strictly to scrollY to create the "scroll to read" Framer effect
-        // 0 at top, 1 at 400px scroll
+        // Map scrollY to reverse progress: 
+        // 0 scroll = fully visible, 400px scroll = fully faded out
         let scrollP = window.scrollY / 400;
         scrollP = Math.max(0, Math.min(1, scrollP));
         
-        // Map 0-1 to -20 to 120 for the gradient sweep
-        const gradientProgress = (scrollP * 140) - 20;
+        // Reverse the mapping: 1 (top) down to 0 (scrolled)
+        const reversedP = 1 - scrollP;
+        
+        // Map 1-0 to 120 down to -20 for the gradient sweep
+        const gradientProgress = (reversedP * 140) - 20;
         
         fadeElements.forEach(el => {
           el.style.setProperty('--fade-progress', gradientProgress);
