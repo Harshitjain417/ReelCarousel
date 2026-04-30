@@ -62,12 +62,12 @@
        ========================================== */
     .hero-section {
       width: 100vw;
-      height: 100vh;
-      min-height: 600px;
+      min-height: auto;
       display: flex;
       flex-direction: column;
       position: relative;
       padding: 0 5vw;
+      padding-bottom: 60px;
     }
 
     .hero-nav {
@@ -956,21 +956,17 @@
        ========================================== */
     .stats-section {
       width: 100vw;
-      background: #ffffff;
+      background: var(--bg-color);
       display: flex;
       justify-content: center;
       padding: 0 5vw;
-      transition: background 0.3s ease;
-    }
-
-    [data-theme="dark"] .stats-section {
-      background: #000000;
+      transition: background 0.4s ease;
     }
 
     .stats-grid {
       width: 100%;
       max-width: 1200px;
-      background: #ffffff;
+      background: var(--bg-color);
       border-radius: 16px;
       padding: 60px 40px;
       display: flex;
@@ -978,11 +974,7 @@
       justify-content: space-around;
       flex-wrap: wrap;
       gap: 40px;
-      transition: background 0.3s ease;
-    }
-
-    [data-theme="dark"] .stats-grid {
-      background: #000000;
+      transition: background 0.4s ease;
     }
 
     .stat-item {
@@ -1007,30 +999,23 @@
     .stat-number {
       font-size: 52px;
       font-weight: 500;
-      color: #0a0a0a;
+      color: var(--text-color);
       letter-spacing: -1px;
       line-height: 1;
       font-family: 'Inter', sans-serif;
-      transition: color 0.3s ease;
+      transition: color 0.4s ease;
       -webkit-mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
       mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
     }
 
-    [data-theme="dark"] .stat-number {
-      color: #ffffff;
-    }
-
     .stat-label {
       font-size: 13px;
-      color: #888888;
+      color: var(--text-color);
+      opacity: 0.45;
       margin-top: 8px;
       font-weight: 400;
       font-family: 'Inter', sans-serif;
-      transition: color 0.3s ease;
-    }
-
-    [data-theme="dark"] .stat-label {
-      color: #666666;
+      transition: color 0.4s ease;
     }
 
     @media (max-width: 768px) {
