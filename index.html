@@ -956,16 +956,21 @@
        ========================================== */
     .stats-section {
       width: 100vw;
-      background: #0a0a0a;
+      background: #ffffff;
       display: flex;
       justify-content: center;
       padding: 0 5vw;
+      transition: background 0.3s ease;
+    }
+
+    [data-theme="dark"] .stats-section {
+      background: #000000;
     }
 
     .stats-grid {
       width: 100%;
       max-width: 1200px;
-      background: #0a0a0a;
+      background: #ffffff;
       border-radius: 16px;
       padding: 60px 40px;
       display: flex;
@@ -973,6 +978,11 @@
       justify-content: space-around;
       flex-wrap: wrap;
       gap: 40px;
+      transition: background 0.3s ease;
+    }
+
+    [data-theme="dark"] .stats-grid {
+      background: #000000;
     }
 
     .stat-item {
@@ -997,20 +1007,30 @@
     .stat-number {
       font-size: 52px;
       font-weight: 500;
-      color: #ffffff;
+      color: #0a0a0a;
       letter-spacing: -1px;
       line-height: 1;
       font-family: 'Inter', sans-serif;
+      transition: color 0.3s ease;
       -webkit-mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
       mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
     }
 
+    [data-theme="dark"] .stat-number {
+      color: #ffffff;
+    }
+
     .stat-label {
       font-size: 13px;
-      color: #666666;
+      color: #888888;
       margin-top: 8px;
       font-weight: 400;
       font-family: 'Inter', sans-serif;
+      transition: color 0.3s ease;
+    }
+
+    [data-theme="dark"] .stat-label {
+      color: #666666;
     }
 
     @media (max-width: 768px) {
