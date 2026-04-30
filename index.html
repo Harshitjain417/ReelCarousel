@@ -671,7 +671,7 @@
       border: 1px solid var(--border-color);
       border-radius: 16px;
       overflow: hidden;
-      transition: box-shadow 0.3s ease;
+      transition: box-shadow 0.3s ease, transform 0.3s ease;
       box-shadow: 0 4px 10px rgba(0,0,0,0.02);
     }
 
@@ -681,9 +681,11 @@
 
     .faq-item:hover {
       box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+      transform: translateY(-4px);
     }
     [data-theme="dark"] .faq-item:hover {
       box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+      transform: translateY(-4px);
     }
 
     .faq-question {
@@ -935,6 +937,20 @@
       .contact-container { padding: 30px 20px; }
       .contact-header h2 { font-size: 2rem; }
     }
+
+    /* ==========================================
+       ✨ SCROLL ANIMATIONS
+       ========================================== */
+    .reveal-up {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.8s cubic-bezier(0.2, 0.8, 0.2, 1), 
+                  transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+    .reveal-up.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
   </style>
 </head>
 <body>
@@ -982,7 +998,7 @@
   <!-- CAROUSEL SECTION WRAPPER -->
   <section class="carousel-section" id="carousel-section">
     <!-- CAROUSEL WRAPPER -->
-    <div class="carousel-container">
+    <div class="carousel-container reveal-up">
       <div class="carousel-track" id="carouselTrack">
         <!-- Items generated dynamically by JS -->
       </div>
@@ -999,9 +1015,48 @@
   </div>
   </section>
 
+  <!-- CONTACT SECTION -->
+  <section class="contact-section" id="contact">
+    <div class="contact-container reveal-up">
+      <div class="contact-header">
+        <h2>Start a Project</h2>
+        <p>Let's craft a story that converts.</p>
+      </div>
+      <form id="contactForm" novalidate>
+        <!-- Future Service Selectors can go here -->
+        
+        <div class="form-group">
+          <label class="form-label" for="fullName">Full Name</label>
+          <input type="text" id="fullName" class="form-input" placeholder="John Doe" required>
+          <svg class="form-validation-icon icon-valid" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+          <svg class="form-validation-icon icon-invalid" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="emailAddress">Email Address</label>
+          <input type="email" id="emailAddress" class="form-input" placeholder="john@company.com" required>
+          <svg class="form-validation-icon icon-valid" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+          <svg class="form-validation-icon icon-invalid" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="message">Message</label>
+          <textarea id="message" class="form-input" placeholder="Tell me about your project, timeline, and goals..." required></textarea>
+          <svg class="form-validation-icon icon-valid" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+          <svg class="form-validation-icon icon-invalid" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </div>
+
+        <button type="submit" class="btn-submit">
+          <span>Send Inquiry</span>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+        </button>
+      </form>
+    </div>
+  </section>
+
   <!-- FAQ SECTION -->
   <section class="faq-section" id="faq">
-    <div class="faq-container">
+    <div class="faq-container reveal-up">
       <div class="faq-watermark">FAQ</div>
       
       <div class="faq-left">
@@ -1087,46 +1142,23 @@
     </div>
   </section>
 
-  <!-- CONTACT SECTION -->
-  <section class="contact-section" id="contact">
-    <div class="contact-container">
-      <div class="contact-header">
-        <h2>Start a Project</h2>
-        <p>Let's craft a story that converts.</p>
-      </div>
-      <form id="contactForm" novalidate>
-        <!-- Future Service Selectors can go here -->
-        
-        <div class="form-group">
-          <label class="form-label" for="fullName">Full Name</label>
-          <input type="text" id="fullName" class="form-input" placeholder="John Doe" required>
-          <svg class="form-validation-icon icon-valid" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
-          <svg class="form-validation-icon icon-invalid" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-        </div>
-
-        <div class="form-group">
-          <label class="form-label" for="emailAddress">Email Address</label>
-          <input type="email" id="emailAddress" class="form-input" placeholder="john@company.com" required>
-          <svg class="form-validation-icon icon-valid" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
-          <svg class="form-validation-icon icon-invalid" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-        </div>
-
-        <div class="form-group">
-          <label class="form-label" for="message">Message</label>
-          <textarea id="message" class="form-input" placeholder="Tell me about your project, timeline, and goals..." required></textarea>
-          <svg class="form-validation-icon icon-valid" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
-          <svg class="form-validation-icon icon-invalid" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-        </div>
-
-        <button type="submit" class="btn-submit">
-          <span>Send Inquiry</span>
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
-        </button>
-      </form>
-    </div>
-  </section>
-
   <script>
+    // ==========================================
+    // ✨ SCROLL REVEAL LOGIC
+    // ==========================================
+    document.addEventListener("DOMContentLoaded", () => {
+      const observerOptions = { root: null, rootMargin: '0px', threshold: 0.15 };
+      const observer = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, observerOptions);
+      document.querySelectorAll('.reveal-up').forEach(el => observer.observe(el));
+    });
+
     // ==========================================
     // 🔠 HERO TEXT 3D ANIMATION
     // ==========================================
