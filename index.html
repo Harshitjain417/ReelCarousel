@@ -959,8 +959,8 @@
         135deg, 
         var(--text-color) 0%, 
         var(--text-color) calc(var(--fade-progress, 0) * 1%), 
-        rgba(150, 150, 150, 0.15) calc(var(--fade-progress, 0) * 1% + 15%), 
-        rgba(150, 150, 150, 0.15) 100%
+        transparent calc(var(--fade-progress, 0) * 1% + 15%), 
+        transparent 100%
       );
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
@@ -974,8 +974,8 @@
         135deg, 
         var(--text-color) 0%, 
         var(--text-color) calc(var(--fade-progress, 0) * 1%), 
-        rgba(255, 255, 255, 0.15) calc(var(--fade-progress, 0) * 1% + 15%), 
-        rgba(255, 255, 255, 0.15) 100%
+        transparent calc(var(--fade-progress, 0) * 1% + 15%), 
+        transparent 100%
       );
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
@@ -1190,21 +1190,44 @@
     });
 
     // ==========================================
-    // ✨ DIAGONAL SCROLL FADE LOGIC
+    // ✨ DIAGONAL SCROLL FADE LOGIC & HERO ANIMATION
     // ==========================================
     document.addEventListener("DOMContentLoaded", () => {
+      // 1. Text Animation Logic
+      const headline = document.querySelector('.hero-left h2');
+      if(headline) {
+        const lines = headline.innerHTML.split('<br>');
+        headline.innerHTML = '';
+        let delay = 0;
+        
+        lines.forEach((line, lineIndex) => {
+          const words = line.split(' ');
+          words.forEach((word) => {
+            const span = document.createElement('span');
+            span.className = 'flip-word';
+            span.style.animationDelay = `${delay}s`;
+            span.innerHTML = word + '&nbsp;';
+            headline.appendChild(span);
+            delay += 0.08; 
+          });
+          
+          if (lineIndex < lines.length - 1) {
+            headline.appendChild(document.createElement('br'));
+          }
+        });
+      }
+
+      // 2. Diagonal Fade Logic
       const fadeElements = document.querySelectorAll('.diagonal-scroll-fade');
-      
       const updateFade = () => {
-        // Map scrollY to reverse progress: 
-        // 0 scroll = fully visible, 400px scroll = fully faded out
-        let scrollP = window.scrollY / 400;
+        // Map scrollY to reverse progress: starts fading immediately, completely invisible at 250px
+        let scrollP = window.scrollY / 250;
         scrollP = Math.max(0, Math.min(1, scrollP));
         
-        // Reverse the mapping: 1 (top) down to 0 (scrolled)
+        // Reverse mapping: 1 (top) down to 0 (scrolled 250px)
         const reversedP = 1 - scrollP;
         
-        // Map 1-0 to 120 down to -20 for the gradient sweep
+        // Map 1-0 to 120 down to -20
         const gradientProgress = (reversedP * 140) - 20;
         
         fadeElements.forEach(el => {
@@ -1214,7 +1237,7 @@
       
       window.addEventListener('scroll', updateFade, { passive: true });
       window.addEventListener('resize', updateFade, { passive: true });
-      updateFade(); // Initialize on load
+      updateFade(); 
     });
 
     // ==========================================
