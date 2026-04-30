@@ -955,31 +955,20 @@
        ✨ DIAGONAL SCROLL FADE
        ========================================== */
     .diagonal-scroll-fade {
-      background: linear-gradient(
+      -webkit-mask-image: linear-gradient(
         135deg, 
-        var(--text-color) 0%, 
-        var(--text-color) calc(var(--fade-progress, 0) * 1%), 
+        black 0%, 
+        black calc(var(--fade-progress, 0) * 1%), 
         transparent calc(var(--fade-progress, 0) * 1% + 15%), 
         transparent 100%
       );
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      color: transparent;
-      display: inline-block;
-    }
-    
-    [data-theme="dark"] .diagonal-scroll-fade {
-      background: linear-gradient(
+      mask-image: linear-gradient(
         135deg, 
-        var(--text-color) 0%, 
-        var(--text-color) calc(var(--fade-progress, 0) * 1%), 
+        black 0%, 
+        black calc(var(--fade-progress, 0) * 1%), 
         transparent calc(var(--fade-progress, 0) * 1% + 15%), 
         transparent 100%
       );
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
     }
   </style>
 </head>
