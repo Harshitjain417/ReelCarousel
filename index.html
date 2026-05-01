@@ -2294,7 +2294,7 @@
     // ==========================================
     document.addEventListener('DOMContentLoaded', async () => {
       // Supabase init
-      const supabaseClient = window.supabase.createClient(
+      const supabase = window.supabase.createClient(
         'https://pqxyihmxrmvbsbcgbtu.supabase.co',
         'sb_publishable_JIhWT_SqlguSYWR1Vj872g_ITWBjGVi'
       );
@@ -2348,7 +2348,7 @@
 
       async function fetchAndRenderReviews() {
         try {
-          const { data, error } = await supabaseClient
+          const { data, error } = await supabase
             .from('reviews')
             .select('*')
             .order('created_at', { ascending: false });
@@ -2427,7 +2427,7 @@
         reviewSubmitBtn.disabled = true;
 
         try {
-          const { error } = await supabaseClient.from('reviews').insert([{
+          const { error } = await supabase.from('reviews').insert([{
             name: nameVal,
             company: companyVal,
             rating: selectedRating,
