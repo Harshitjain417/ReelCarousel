@@ -4,7 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Reel Carousel</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
     /* ==========================================
        🎨 CORE STYLES & LAYOUT
@@ -1105,6 +1106,474 @@
         margin-top: -12vh;
       }
     }
+
+    /* ==========================================
+       ⭐ REVIEWS SECTION
+       ========================================== */
+    .reviews-section {
+      width: 100vw;
+      padding: 100px 5vw 80px;
+      background-color: var(--bg-color);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .reviews-header {
+      text-align: center;
+      margin-bottom: 50px;
+    }
+
+    .reviews-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 100px;
+      padding: 8px 18px;
+      font-size: 13px;
+      font-weight: 500;
+      color: rgba(255,255,255,0.7);
+      margin-bottom: 20px;
+    }
+
+    /* Light theme pill */
+    :root .reviews-pill {
+      background: rgba(0,0,0,0.04);
+      border-color: rgba(0,0,0,0.08);
+      color: rgba(0,0,0,0.6);
+    }
+    [data-theme="dark"] .reviews-pill {
+      background: rgba(255,255,255,0.06);
+      border-color: rgba(255,255,255,0.1);
+      color: rgba(255,255,255,0.7);
+    }
+
+    .reviews-pill-dot {
+      width: 8px;
+      height: 8px;
+      background: #2ecc71;
+      border-radius: 50%;
+      animation: reviewPulse 2s ease-in-out infinite;
+    }
+
+    @keyframes reviewPulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(46, 204, 113, 0.4); }
+      50% { box-shadow: 0 0 0 6px rgba(46, 204, 113, 0); }
+    }
+
+    .reviews-header h2 {
+      font-size: 2.8rem;
+      font-weight: 600;
+      letter-spacing: -0.03em;
+      margin-bottom: 12px;
+      color: var(--text-color);
+    }
+
+    .reviews-header .reviews-subtext {
+      font-size: 1rem;
+      color: var(--text-color);
+      opacity: 0.5;
+    }
+
+    /* Marquee Rows */
+    .marquee-container {
+      position: relative;
+      overflow: hidden;
+      width: 100%;
+      margin-bottom: 14px;
+    }
+
+    .marquee-container::before,
+    .marquee-container::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 100px;
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    .marquee-container::before {
+      left: 0;
+      background: linear-gradient(to right, var(--bg-color) 0%, transparent 100%);
+    }
+
+    .marquee-container::after {
+      right: 0;
+      background: linear-gradient(to left, var(--bg-color) 0%, transparent 100%);
+    }
+
+    .marquee-track {
+      display: flex;
+      width: max-content;
+    }
+
+    .marquee-track-row1 {
+      animation: marqueeLeft 30s linear infinite;
+    }
+
+    .marquee-track-row2 {
+      animation: marqueeRight 38s linear infinite;
+    }
+
+    .marquee-container:hover .marquee-track {
+      animation-play-state: paused;
+    }
+
+    @keyframes marqueeLeft {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    @keyframes marqueeRight {
+      0% { transform: translateX(-50%); }
+      100% { transform: translateX(0); }
+    }
+
+    /* Review Card */
+    .review-card {
+      width: 280px;
+      flex-shrink: 0;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 16px;
+      padding: 20px 22px;
+      margin-right: 14px;
+      transition: all 0.3s ease;
+    }
+
+    :root .review-card {
+      background: rgba(0,0,0,0.03);
+      border-color: rgba(0,0,0,0.08);
+    }
+    [data-theme="dark"] .review-card {
+      background: rgba(255,255,255,0.04);
+      border-color: rgba(255,255,255,0.08);
+    }
+
+    .review-card:hover {
+      box-shadow: 0 0 20px rgba(180,240,80,0.12);
+    }
+
+    .review-stars {
+      color: #f5c542;
+      font-size: 14px;
+      letter-spacing: 2px;
+    }
+
+    .review-text {
+      font-style: italic;
+      font-weight: 300;
+      font-size: 14px;
+      line-height: 1.7;
+      color: rgba(255,255,255,0.7);
+      margin-top: 10px;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    :root .review-text {
+      color: rgba(0,0,0,0.6);
+    }
+    [data-theme="dark"] .review-text {
+      color: rgba(255,255,255,0.7);
+    }
+
+    .review-bottom {
+      margin-top: 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .review-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #2ecc71, #1a9c54);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 600;
+      color: white;
+      flex-shrink: 0;
+    }
+
+    .review-info {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .review-name {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-color);
+    }
+
+    .review-company {
+      font-size: 11px;
+      color: rgba(255,255,255,0.45);
+    }
+
+    :root .review-company {
+      color: rgba(0,0,0,0.4);
+    }
+    [data-theme="dark"] .review-company {
+      color: rgba(255,255,255,0.45);
+    }
+
+    /* Reviews Divider */
+    .reviews-divider {
+      width: 80%;
+      max-width: 500px;
+      height: 1px;
+      background: rgba(255,255,255,0.08);
+      margin: 60px auto;
+    }
+
+    :root .reviews-divider {
+      background: rgba(0,0,0,0.08);
+    }
+    [data-theme="dark"] .reviews-divider {
+      background: rgba(255,255,255,0.08);
+    }
+
+    /* Review Form */
+    .review-form-header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .review-form-header h3 {
+      font-size: 2rem;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      margin-bottom: 8px;
+      color: var(--text-color);
+    }
+
+    .review-form-header .review-form-subtext {
+      font-size: 0.95rem;
+      color: var(--text-color);
+      opacity: 0.5;
+    }
+
+    .review-form-card {
+      max-width: 500px;
+      margin: 0 auto;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 20px;
+      padding: 32px;
+    }
+
+    :root .review-form-card {
+      background: rgba(0,0,0,0.03);
+      border-color: rgba(0,0,0,0.1);
+    }
+    [data-theme="dark"] .review-form-card {
+      background: rgba(255,255,255,0.04);
+      border-color: rgba(255,255,255,0.1);
+    }
+
+    .review-form-group {
+      margin-bottom: 20px;
+    }
+
+    .review-form-label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 500;
+      margin-bottom: 8px;
+      color: var(--text-color);
+      opacity: 0.6;
+    }
+
+    .review-form-input {
+      width: 100%;
+      background: var(--bg-color);
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      padding: 12px 16px;
+      font-size: 0.95rem;
+      font-family: 'Inter', sans-serif;
+      color: var(--text-color);
+      outline: none;
+      transition: all 0.3s ease;
+    }
+
+    .review-form-input:focus {
+      border-color: var(--text-color);
+      box-shadow: 0 0 0 3px var(--accent-color);
+    }
+
+    .review-form-textarea {
+      width: 100%;
+      background: var(--bg-color);
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      padding: 12px 16px;
+      font-size: 0.95rem;
+      font-family: 'Inter', sans-serif;
+      color: var(--text-color);
+      outline: none;
+      min-height: 110px;
+      resize: vertical;
+      transition: all 0.3s ease;
+    }
+
+    .review-form-textarea:focus {
+      border-color: var(--text-color);
+      box-shadow: 0 0 0 3px var(--accent-color);
+    }
+
+    /* Star Rating */
+    .star-rating-row {
+      display: flex;
+      gap: 6px;
+    }
+
+    .star-rating-btn {
+      background: none;
+      border: none;
+      font-size: 28px;
+      cursor: pointer;
+      color: rgba(255,255,255,0.2);
+      transition: color 0.2s ease, transform 0.15s ease;
+      padding: 0;
+      line-height: 1;
+    }
+
+    :root .star-rating-btn {
+      color: rgba(0,0,0,0.15);
+    }
+    [data-theme="dark"] .star-rating-btn {
+      color: rgba(255,255,255,0.2);
+    }
+
+    .star-rating-btn.active {
+      color: #f5c542;
+    }
+
+    .star-rating-btn:hover {
+      transform: scale(1.15);
+    }
+
+    .review-star-error {
+      font-size: 12px;
+      color: #ff3b30;
+      margin-top: 6px;
+      display: none;
+    }
+
+    /* Submit Button */
+    .review-submit-btn {
+      width: 100%;
+      background: var(--text-color);
+      color: var(--bg-color);
+      border: none;
+      border-radius: 12px;
+      padding: 14px;
+      font-size: 15px;
+      font-weight: 600;
+      font-family: 'Inter', sans-serif;
+      cursor: pointer;
+      transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 0.3s ease;
+      margin-top: 8px;
+    }
+
+    .review-submit-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    }
+
+    [data-theme="dark"] .review-submit-btn:hover {
+      box-shadow: 0 8px 20px rgba(255,255,255,0.1);
+    }
+
+    .review-submit-btn:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .review-form-error {
+      font-size: 13px;
+      color: #ff3b30;
+      margin-top: 10px;
+      text-align: center;
+      display: none;
+    }
+
+    /* Toast */
+    .review-toast {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      background: #111;
+      color: #fff;
+      padding: 14px 24px;
+      border-radius: 100px;
+      font-size: 14px;
+      font-weight: 500;
+      font-family: 'Inter', sans-serif;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+      z-index: 9999;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.4s ease, transform 0.4s ease;
+      pointer-events: none;
+    }
+
+    .review-toast.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Reviews Responsive */
+    @media (max-width: 768px) {
+      .reviews-section {
+        padding: 60px 5vw 50px;
+      }
+      .marquee-row-2 {
+        display: none;
+      }
+      .review-card {
+        width: 220px;
+        padding: 16px 18px;
+      }
+      .review-form-card {
+        padding: 20px;
+      }
+      .reviews-header h2 {
+        font-size: 2rem;
+      }
+      .review-stars {
+        font-size: 12px;
+      }
+      .review-text {
+        font-size: 13px;
+      }
+      .review-name {
+        font-size: 12px;
+      }
+      .review-company {
+        font-size: 10px;
+      }
+      .review-form-header h3 {
+        font-size: 1.6rem;
+      }
+      .marquee-container::before,
+      .marquee-container::after {
+        width: 50px;
+      }
+    }
   </style>
 </head>
 <body>
@@ -1229,6 +1698,82 @@
       </form>
     </div>
   </section>
+
+  <!-- REVIEWS SECTION -->
+  <section class="reviews-section" id="reviews">
+    <div class="reviews-header reveal-up">
+      <div class="reviews-pill">
+        <span class="reviews-pill-dot"></span>
+        What Clients Say
+      </div>
+      <h2>Trusted by Creators & Founders</h2>
+      <p class="reviews-subtext">Real results from real clients</p>
+    </div>
+
+    <!-- Marquee Row 1 - scrolls LEFT -->
+    <div class="marquee-container">
+      <div class="marquee-track marquee-track-row1" id="marqueeRow1">
+        <!-- Cards injected by JS -->
+      </div>
+    </div>
+
+    <!-- Marquee Row 2 - scrolls RIGHT -->
+    <div class="marquee-container marquee-row-2">
+      <div class="marquee-track marquee-track-row2" id="marqueeRow2">
+        <!-- Cards injected by JS -->
+      </div>
+    </div>
+
+    <!-- Divider -->
+    <div class="reviews-divider"></div>
+
+    <!-- Review Submit Form -->
+    <div class="review-form-header reveal-up">
+      <div class="reviews-pill">
+        <span class="reviews-pill-dot"></span>
+        Leave a Review
+      </div>
+      <h3>Share Your Experience</h3>
+      <p class="review-form-subtext">Your feedback means the world</p>
+    </div>
+
+    <div class="review-form-card reveal-up">
+      <form id="reviewForm" novalidate>
+        <div class="review-form-group">
+          <label class="review-form-label" for="reviewName">Full Name</label>
+          <input type="text" id="reviewName" class="review-form-input" placeholder="Your name" required>
+        </div>
+
+        <div class="review-form-group">
+          <label class="review-form-label" for="reviewCompany">Company / Role</label>
+          <input type="text" id="reviewCompany" class="review-form-input" placeholder="Founder @ YourCompany">
+        </div>
+
+        <div class="review-form-group">
+          <label class="review-form-label">Your Rating</label>
+          <div class="star-rating-row" id="starRatingRow">
+            <button type="button" class="star-rating-btn" data-star="1">★</button>
+            <button type="button" class="star-rating-btn" data-star="2">★</button>
+            <button type="button" class="star-rating-btn" data-star="3">★</button>
+            <button type="button" class="star-rating-btn" data-star="4">★</button>
+            <button type="button" class="star-rating-btn" data-star="5">★</button>
+          </div>
+          <div class="review-star-error" id="starError">Please select a rating</div>
+        </div>
+
+        <div class="review-form-group">
+          <label class="review-form-label" for="reviewMessage">Your Review</label>
+          <textarea id="reviewMessage" class="review-form-textarea" placeholder="Share your experience working with Harshit..." required></textarea>
+        </div>
+
+        <button type="submit" class="review-submit-btn" id="reviewSubmitBtn">Submit Review</button>
+        <div class="review-form-error" id="reviewFormError">Something went wrong. Please try again.</div>
+      </form>
+    </div>
+  </section>
+
+  <!-- Toast Notification -->
+  <div class="review-toast" id="reviewToast">Thanks for your review! Your review is now live.</div>
 
   <!-- FAQ SECTION -->
   <section class="faq-section" id="faq">
@@ -1742,6 +2287,187 @@
           }
         });
       });
+    });
+
+    // ==========================================
+    // ⭐ REVIEWS & SUPABASE LOGIC
+    // ==========================================
+    document.addEventListener('DOMContentLoaded', async () => {
+      // Supabase init
+      const supabaseClient = window.supabase.createClient(
+        'https://pqxyihmxrmvbsbcgbtu.supabase.co',
+        'sb_publishable_JIhWT_SqlguSYWR1Vj872g_ITWBjGVi'
+      );
+
+      // Dummy data fallback
+      const DUMMY_REVIEWS = [
+        { name: 'Rahul Mehta', company: 'Founder @ TechFlow', rating: 5, message: 'Harshit delivered our SaaS demo in 2 days. Conversion rate jumped 40% after launch. Absolutely worth every rupee.' },
+        { name: 'Sarah K.', company: 'Marketing Head @ Launchpad', rating: 5, message: 'Best motion graphics work I have seen. Very professional, fast, and understood the brief perfectly on the first call.' },
+        { name: 'Arjun Sharma', company: 'CEO @ Growmatic', rating: 5, message: 'Understood our brand voice instantly. The launch video got 10k views in first 3 days. Will hire again for sure.' },
+        { name: 'Priya Nair', company: 'Co-founder @ Stackly', rating: 5, message: 'Absolutely nailed the explainer video. Our investors loved the quality. 10 out of 10 experience.' },
+        { name: 'James Wu', company: 'Product Lead @ Driftly', rating: 4, message: 'Great communicator, fast turnaround. Animation quality was above what we expected for the budget.' }
+      ];
+
+      function getInitials(name) {
+        return name.split(' ').map(w => w[0]).join('').substring(0, 2).toUpperCase();
+      }
+
+      function renderStars(rating) {
+        let stars = '';
+        for (let i = 0; i < rating; i++) stars += '★';
+        return stars;
+      }
+
+      function createReviewCardHTML(review) {
+        return `<div class="review-card">
+          <div class="review-stars">${renderStars(review.rating)}</div>
+          <div class="review-text">"${review.message}"</div>
+          <div class="review-bottom">
+            <div class="review-avatar">${getInitials(review.name)}</div>
+            <div class="review-info">
+              <div class="review-name">${review.name}</div>
+              <div class="review-company">${review.company || ''}</div>
+            </div>
+          </div>
+        </div>`;
+      }
+
+      function renderMarqueeRows(reviews) {
+        const row1El = document.getElementById('marqueeRow1');
+        const row2El = document.getElementById('marqueeRow2');
+
+        // Row 1: normal order, duplicated
+        const row1Cards = reviews.map(r => createReviewCardHTML(r)).join('');
+        row1El.innerHTML = row1Cards + row1Cards;
+
+        // Row 2: reversed order, duplicated
+        const reversed = [...reviews].reverse();
+        const row2Cards = reversed.map(r => createReviewCardHTML(r)).join('');
+        row2El.innerHTML = row2Cards + row2Cards;
+      }
+
+      async function fetchAndRenderReviews() {
+        try {
+          const { data, error } = await supabaseClient
+            .from('reviews')
+            .select('*')
+            .order('created_at', { ascending: false });
+
+          if (!error && data && data.length > 0) {
+            renderMarqueeRows(data);
+          } else {
+            renderMarqueeRows(DUMMY_REVIEWS);
+          }
+        } catch (e) {
+          renderMarqueeRows(DUMMY_REVIEWS);
+        }
+      }
+
+      // Initial load
+      await fetchAndRenderReviews();
+
+      // ==========================================
+      // ⭐ STAR RATING INTERACTION
+      // ==========================================
+      let selectedRating = 0;
+      const starBtns = document.querySelectorAll('.star-rating-btn');
+      const starError = document.getElementById('starError');
+
+      starBtns.forEach(btn => {
+        btn.addEventListener('mouseenter', () => {
+          const hoverVal = parseInt(btn.dataset.star);
+          starBtns.forEach(b => {
+            b.classList.toggle('active', parseInt(b.dataset.star) <= hoverVal);
+          });
+        });
+
+        btn.addEventListener('click', () => {
+          selectedRating = parseInt(btn.dataset.star);
+          starError.style.display = 'none';
+          starBtns.forEach(b => {
+            b.classList.toggle('active', parseInt(b.dataset.star) <= selectedRating);
+          });
+        });
+      });
+
+      document.getElementById('starRatingRow').addEventListener('mouseleave', () => {
+        starBtns.forEach(b => {
+          b.classList.toggle('active', parseInt(b.dataset.star) <= selectedRating);
+        });
+      });
+
+      // ==========================================
+      // ⭐ REVIEW FORM SUBMIT
+      // ==========================================
+      const reviewForm = document.getElementById('reviewForm');
+      const reviewSubmitBtn = document.getElementById('reviewSubmitBtn');
+      const reviewFormError = document.getElementById('reviewFormError');
+
+      reviewForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        reviewFormError.style.display = 'none';
+
+        const nameVal = document.getElementById('reviewName').value.trim();
+        const companyVal = document.getElementById('reviewCompany').value.trim();
+        const messageVal = document.getElementById('reviewMessage').value.trim();
+
+        if (!nameVal || !messageVal) {
+          reviewFormError.textContent = 'Please fill in all required fields.';
+          reviewFormError.style.display = 'block';
+          return;
+        }
+
+        if (selectedRating === 0) {
+          starError.style.display = 'block';
+          return;
+        }
+
+        // Loading state
+        reviewSubmitBtn.textContent = 'Submitting...';
+        reviewSubmitBtn.disabled = true;
+
+        try {
+          const { error } = await supabaseClient.from('reviews').insert([{
+            name: nameVal,
+            company: companyVal,
+            rating: selectedRating,
+            message: messageVal
+          }]);
+
+          if (error) throw error;
+
+          // Success: reset form
+          reviewForm.reset();
+          selectedRating = 0;
+          starBtns.forEach(b => b.classList.remove('active'));
+          reviewSubmitBtn.textContent = 'Submit Review';
+          reviewSubmitBtn.disabled = false;
+
+          // Show toast
+          const toast = document.getElementById('reviewToast');
+          toast.classList.add('show');
+          setTimeout(() => toast.classList.remove('show'), 3500);
+
+          // Re-fetch and re-render
+          await fetchAndRenderReviews();
+
+        } catch (err) {
+          reviewFormError.style.display = 'block';
+          reviewSubmitBtn.textContent = 'Submit Review';
+          reviewSubmitBtn.disabled = false;
+        }
+      });
+
+      // Re-observe new reveal-up elements for the reviews section
+      const revObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            revObserver.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.15 });
+      document.querySelectorAll('.reviews-section .reveal-up').forEach(el => revObserver.observe(el));
     });
   </script>
 </body>
